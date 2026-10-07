@@ -34,7 +34,7 @@ const CONFIG = {
       hint: "차가 많은 곳이었어.",
       photo: "photos/1.jpg",
       emoji: "🚗",
-      memory: "도저히 참을 수가 없었어ㅋㅋ",
+      memory: "도저히 참을 수가 없었어ㅋㅋ💕",
     },
     {
       question: "우리가 사귀기 시작한 날은?",
