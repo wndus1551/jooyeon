@@ -69,7 +69,7 @@ const CONFIG = {
       badge: "헐, 정답",
       photo: "photos/5.jpg",
       emoji: "😳",
-      memory: "“{answer}”...? 어떻게 알았어? 나 그거 진짜 하고 싶었는데ㅋㅋ",
+      memory: "“{answer}”...? 어떻게 알았어? 내가 너무 노래를 불렀나?😂💕",
     },
   ],
 
