@@ -13,26 +13,29 @@
     if (navigator.vibrate) navigator.vibrate(pattern);
   }
 
-  function burstHearts(count = 18) {
-    const layer = $("floating-hearts");
-    const icons = ["💖", "💕", "💗", "💓", "💘", "✨"];
+  const HEART_PATH = "M32 54C14 41 5 31 5 19 5 10 12 4 20 4c5 0 9 3 12 7 3-4 7-7 12-7 8 0 15 6 15 15 0 12-9 22-27 35z";
+
+  // 정답일 때 눌린 버튼에서 작은 하트 몇 개가 톡 튀어 올라요
+  function popHearts(fromEl, count = 6) {
+    const layer = $("pop-layer");
+    const r = fromEl.getBoundingClientRect();
     for (let i = 0; i < count; i++) {
-      const h = document.createElement("span");
-      h.className = "float-heart";
-      h.textContent = icons[Math.floor(Math.random() * icons.length)];
-      h.style.left = Math.random() * 100 + "vw";
-      h.style.fontSize = 18 + Math.random() * 26 + "px";
-      h.style.setProperty("--r", Math.random() * 360 - 180 + "deg");
-      h.style.animationDuration = 2.5 + Math.random() * 2.5 + "s";
-      h.style.animationDelay = Math.random() * 0.8 + "s";
-      layer.appendChild(h);
-      h.addEventListener("animationend", () => h.remove());
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 64 58");
+      svg.setAttribute("class", "pop-heart");
+      svg.innerHTML = `<path d="${HEART_PATH}"/>`;
+      svg.style.left = r.left + r.width * (0.2 + Math.random() * 0.6) + "px";
+      svg.style.top = r.top + "px";
+      svg.style.setProperty("--dx", (Math.random() * 60 - 30).toFixed(0) + "px");
+      svg.style.animationDelay = (i * 0.06).toFixed(2) + "s";
+      layer.appendChild(svg);
+      svg.addEventListener("animationend", () => svg.remove());
     }
   }
 
-  function renderHearts() {
-    $("hearts").innerHTML = quizzes
-      .map((_, i) => (i < current ? '<span class="on">❤️</span>' : "🤍"))
+  function renderProgress() {
+    $("dots").innerHTML = quizzes
+      .map((_, i) => `<span class="dot${i < current ? " done" : i === current ? " now" : ""}"></span>`)
       .join("");
     $("step").textContent = `${current + 1} / ${quizzes.length}`;
   }
@@ -40,7 +43,7 @@
   function renderQuiz() {
     const q = quizzes[current];
     locked = false;
-    renderHearts();
+    renderProgress();
     $("q-num").textContent = current + 1;
     $("question").textContent = q.question;
     $("feedback").textContent = "";
@@ -64,7 +67,7 @@
       locked = true;
       btn.classList.add("right");
       vibrate([40, 40, 40]);
-      burstHearts(14);
+      popHearts(btn);
       setTimeout(showMemory, 700);
       return;
     }
@@ -73,8 +76,13 @@
     vibrate(200);
     const msgs = CONFIG.wrongMessages;
     const msg = msgs[Math.floor(Math.random() * msgs.length)];
-    $("feedback").textContent = q.hint ? `${msg}\n힌트: ${q.hint}` : msg;
-    $("feedback").style.whiteSpace = "pre-line";
+    const fb = $("feedback");
+    fb.textContent = msg;
+    if (q.hint) {
+      const hint = document.createElement("b");
+      hint.textContent = `\n힌트: ${q.hint}`;
+      fb.appendChild(hint);
+    }
     const card = $("card");
     card.classList.remove("shake");
     void card.offsetWidth;
@@ -85,7 +93,7 @@
     const q = quizzes[current];
     const box = $("photo-box");
     box.innerHTML = "";
-    const fallback = () => { box.textContent = q.emoji || "💖"; };
+    const fallback = () => { box.textContent = q.emoji || "❤️"; };
     if (q.photo) {
       const img = new Image();
       img.alt = "우리의 추억";
@@ -97,7 +105,7 @@
     }
     $("memory").textContent = q.memory || "";
     const isLast = current === quizzes.length - 1;
-    $("btn-next").textContent = isLast ? "마지막 선물 받기 🎁" : "다음 문제 ➜";
+    $("btn-next").textContent = isLast ? "마지막 선물 보기" : "다음 문제";
     // 다시 들어올 때 애니메이션이 재생되도록
     const polaroid = document.querySelector(".polaroid");
     polaroid.style.animation = "none";
@@ -117,7 +125,6 @@
     $("letter-hint").classList.remove("hidden");
     $("letter").classList.add("hidden");
     show("screen-letter");
-    burstHearts(30);
   }
 
   function openLetter() {
@@ -129,17 +136,16 @@
       env.classList.add("hidden");
       $("letter-hint").classList.add("hidden");
       $("letter").classList.remove("hidden");
-      burstHearts(40);
     }, 700);
   }
 
   // ---------- 초기화 ----------
-  document.title = `💌 ${CONFIG.title}`;
+  document.title = CONFIG.title;
   $("title").textContent = CONFIG.title;
-  $("greeting").textContent = `${CONFIG.herName}, 안녕 👋`;
+  $("greeting").textContent = `${CONFIG.herName}, 안녕`;
   $("subtitle").textContent = CONFIG.subtitle;
   $("letter-text").textContent = CONFIG.letter;
-  $("letter-sign").textContent = `- ${CONFIG.myName} 💕`;
+  $("letter-sign").textContent = `- ${CONFIG.myName}`;
   $("final-surprise").textContent = CONFIG.finalSurprise || "";
 
   $("btn-start").addEventListener("click", () => { current = 0; renderQuiz(); });
@@ -147,5 +153,4 @@
   $("envelope").addEventListener("click", openLetter);
   $("btn-replay").addEventListener("click", () => show("screen-start"));
 
-  setInterval(() => burstHearts(2), 3000);
 })();
