@@ -25,6 +25,7 @@ const CONFIG = {
   //    - photo  : photos 폴더에 넣은 사진 경로 (없으면 emoji 로 대체)
   //    - emoji  : 사진이 없을 때 보여줄 이모지
   //    - memory : 정답 맞히면 사진 밑에 나오는 한 줄
+  //    - badge  : 정답 화면 위 배지 문구 (없으면 "정답")
   quizzes: [
     {
       question: "우리가 처음 뽀뽀한 장소는?",
@@ -60,6 +61,15 @@ const CONFIG = {
       photo: "photos/4.jpg",
       emoji: "🏷️",
       memory: "“{answer}” 좋다. 마음에 들어.",
+    },
+    {
+      type: "text",
+      question: "내가 예진이와 함께 하고 싶어 하는 건?",
+      placeholder: "생각나는 거 아무거나",
+      badge: "헐, 정답",
+      photo: "photos/5.jpg",
+      emoji: "😳",
+      memory: "“{answer}”...? 어떻게 알았어? 나 그거 진짜 하고 싶었는데ㅋㅋ",
     },
   ],
 

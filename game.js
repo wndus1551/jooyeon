@@ -147,6 +147,7 @@
     } else {
       fallback();
     }
+    $("badge").textContent = q.badge || "정답";
     $("memory").textContent = (q.memory || "").replace("{answer}", typedAnswer);
     const isLast = current === quizzes.length - 1;
     $("btn-next").textContent = isLast ? "마지막 선물 보기" : "다음 문제";
