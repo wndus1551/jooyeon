@@ -10,61 +10,56 @@ const CONFIG = {
 
   // 시작 화면 문구
   title: "우리의 추억 퀴즈",
-  subtitle: "다섯 문제만 맞히면\n작은 선물이 있어.",
+  subtitle: "{count}문제만 맞히면\n작은 선물이 있어.",   // {count} 자리에 문제 수가 자동으로 들어가요
 
   // 퀴즈 목록 (원하는 만큼 추가/삭제 가능)
-  //  - question : 질문
-  //  - choices  : 보기 (2~4개 추천)
-  //  - answer   : 정답 보기 번호 (0부터 시작! 첫 번째 보기 = 0)
-  //  - hint     : 틀렸을 때 보여줄 힌트
-  //  - photo    : photos 폴더에 넣은 사진 파일 경로 (없으면 "" 로 두면 이모지로 대체)
-  //  - emoji    : 사진이 없을 때 대신 보여줄 이모지
-  //  - memory   : 정답 맞히면 사진과 함께 나오는 한 줄
+  //  ▸ 보기 고르는 문제
+  //    - question : 질문
+  //    - answer   : 정답 (보기 위치는 매번 랜덤으로 섞여요)
+  //    - wrong    : 오답 보기들
+  //  ▸ 직접 입력하는 문제 (뭐라고 쓰든 정답)
+  //    - type: "text", placeholder: 입력칸 안내 문구
+  //    - memory 안의 {answer} 자리에 입력한 내용이 들어가요
+  //  ▸ 공통
+  //    - hint   : 틀렸을 때 보여줄 힌트
+  //    - photo  : photos 폴더에 넣은 사진 경로 (없으면 emoji 로 대체)
+  //    - emoji  : 사진이 없을 때 보여줄 이모지
+  //    - memory : 정답 맞히면 사진 밑에 나오는 한 줄
   quizzes: [
     {
-      question: "우리가 처음 만난 곳은?",
-      choices: ["카페", "학교", "친구 생일파티", "지하철"],
-      answer: 2,
-      hint: "그날 케이크가 있었어.",
+      question: "우리가 처음 뽀뽀한 장소는?",
+      answer: "주차장",
+      wrong: ["집 앞 골목", "공원 벤치", "엘리베이터 안"],
+      hint: "차가 많은 곳이었어.",
       photo: "photos/1.jpg",
-      emoji: "🎂",
-      memory: "그날 사실 엄청 긴장했었어.",
-    },
-    {
-      question: "첫 데이트 때 먹은 메뉴는?",
-      choices: ["파스타", "떡볶이", "삼겹살", "초밥"],
-      answer: 1,
-      hint: "좀 매웠지.",
-      photo: "photos/2.jpg",
-      emoji: "🍜",
-      memory: "맛은 기억 안 나는데 네 표정은 기억나.",
+      emoji: "🚗",
+      memory: "지금 생각해도 장소 선정은 좀 웃겨.",
     },
     {
       question: "우리가 사귀기 시작한 날은?",
-      choices: ["3월 14일", "5월 2일", "7월 7일", "12월 24일"],
-      answer: 1,
-      hint: "봄이었어.",
-      photo: "photos/3.jpg",
-      emoji: "🌸",
+      answer: "7월 23일",
+      wrong: ["7월 13일", "7월 22일", "8월 23일"],
+      hint: "7월 말쯤이었어.",
+      photo: "photos/2.jpg",
+      emoji: "📅",
       memory: "그날부터 하루하루 세는 중.",
     },
     {
-      question: "내가 너한테 제일 많이 하는 말은?",
-      choices: ["배고파", "보고 싶어", "졸려", "귀여워"],
-      answer: 3,
-      hint: "지금도 하고 싶은 말.",
-      photo: "photos/4.jpg",
-      emoji: "🙂",
-      memory: "근데 진짜 귀여운 걸 어떡해.",
+      question: "우리가 가장 좋아하는 산책 장소는?",
+      answer: "남매지",
+      wrong: ["수성못", "동네 한 바퀴", "학교 운동장"],
+      hint: "이름에 가족이 들어 있어.",
+      photo: "photos/3.jpg",
+      emoji: "🌿",
+      memory: "다음에 또 한 바퀴 돌자.",
     },
     {
-      question: "마지막 문제. 내가 제일 좋아하는 사람은?",
-      choices: ["엄마", "너", "나 자신", "강아지"],
-      answer: 1,
-      hint: "이건 쉬운 문제야.",
-      photo: "photos/5.jpg",
-      emoji: "❤️",
-      memory: "정답. 앞으로도 계속.",
+      type: "text",
+      question: "상대방에게 가장 어울리는 별명을 지어준다면?",
+      placeholder: "별명을 써 줘",
+      photo: "photos/4.jpg",
+      emoji: "🏷️",
+      memory: "“{answer}” 좋다. 마음에 들어.",
     },
   ],
 

@@ -129,6 +129,23 @@ h2 {
 .choice.wrong { color: var(--muted); background: var(--paper); text-decoration: line-through; }
 .choice.right { background: var(--accent); border-color: var(--accent); color: #fff; }
 
+.text-answer { display: grid; gap: 10px; }
+.answer-input {
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px dashed var(--accent);
+  border-radius: 14px;
+  padding: 12px;
+  width: 100%;
+  -webkit-user-select: text;
+  user-select: text;
+}
+.answer-input::placeholder { color: var(--muted); opacity: 0.7; }
+.answer-input:focus { outline: none; border-style: solid; background: var(--card); }
+
 .feedback { min-height: 2.8em; margin: 14px 0 0; font-size: 0.98rem; line-height: 1.5; color: var(--muted); white-space: pre-line; }
 .feedback b { color: var(--accent); font-weight: 400; }
 

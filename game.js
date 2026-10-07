@@ -40,30 +40,74 @@
     $("step").textContent = `${current + 1} / ${quizzes.length}`;
   }
 
+  function shuffle(list) {
+    const a = list.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  let typedAnswer = "";
+
   function renderQuiz() {
     const q = quizzes[current];
     locked = false;
+    typedAnswer = "";
     renderProgress();
     $("q-num").textContent = current + 1;
     $("question").textContent = q.question;
     $("feedback").textContent = "";
     const box = $("choices");
     box.innerHTML = "";
-    q.choices.forEach((text, i) => {
-      const btn = document.createElement("button");
-      btn.className = "choice";
-      btn.textContent = text;
-      btn.addEventListener("click", () => pick(btn, i));
-      box.appendChild(btn);
-    });
+    if (q.type === "text") renderTextInput(box, q);
+    else {
+      // 정답과 오답을 섞어서 매번 다른 위치에 나오게 해요
+      shuffle([q.answer, ...q.wrong]).forEach((text) => {
+        const btn = document.createElement("button");
+        btn.className = "choice";
+        btn.textContent = text;
+        btn.addEventListener("click", () => pick(btn, text === q.answer));
+        box.appendChild(btn);
+      });
+    }
     show("screen-quiz");
   }
 
-  function pick(btn, index) {
+  // 직접 입력하는 문제: 뭐라고 쓰든 정답
+  function renderTextInput(box, q) {
+    const form = document.createElement("form");
+    form.className = "text-answer";
+    form.innerHTML =
+      '<input id="answer-input" class="answer-input" type="text" maxlength="20" autocomplete="off" />' +
+      '<button class="choice" type="submit">확인</button>';
+    const input = form.querySelector("input");
+    const btn = form.querySelector("button");
+    input.placeholder = q.placeholder || "여기에 써 줘";
+    input.addEventListener("input", () => { $("feedback").textContent = ""; });
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (locked) return;
+      const value = input.value.trim();
+      if (!value) {
+        $("feedback").textContent = "한 글자라도 써 줘.";
+        input.focus();
+        return;
+      }
+      typedAnswer = value;
+      input.blur();
+      input.readOnly = true;
+      pick(btn, true);
+    });
+    box.appendChild(form);
+  }
+
+  function pick(btn, isRight) {
     if (locked || btn.classList.contains("wrong")) return;
     const q = quizzes[current];
 
-    if (index === q.answer) {
+    if (isRight) {
       locked = true;
       btn.classList.add("right");
       vibrate([40, 40, 40]);
@@ -103,7 +147,7 @@
     } else {
       fallback();
     }
-    $("memory").textContent = q.memory || "";
+    $("memory").textContent = (q.memory || "").replace("{answer}", typedAnswer);
     const isLast = current === quizzes.length - 1;
     $("btn-next").textContent = isLast ? "마지막 선물 보기" : "다음 문제";
     // 다시 들어올 때 애니메이션이 재생되도록
@@ -143,7 +187,7 @@
   document.title = CONFIG.title;
   $("title").textContent = CONFIG.title;
   $("greeting").textContent = `${CONFIG.herName}, 안녕`;
-  $("subtitle").textContent = CONFIG.subtitle;
+  $("subtitle").textContent = CONFIG.subtitle.replace("{count}", quizzes.length);
   $("letter-text").textContent = CONFIG.letter;
   $("letter-sign").textContent = `- ${CONFIG.myName}`;
   $("final-surprise").textContent = CONFIG.finalSurprise || "";
