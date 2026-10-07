@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#ffd6e0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>💌 우리의 추억 퀴즈</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="floating-hearts" aria-hidden="true"></div>
+
+  <main id="app">
+    <!-- 시작 화면 -->
+    <section id="screen-start" class="screen active">
+      <div class="big-heart">💝</div>
+      <h1 id="title"></h1>
+      <p id="greeting" class="greeting"></p>
+      <p id="subtitle" class="subtitle"></p>
+      <button id="btn-start" class="btn primary">시작하기 💕</button>
+    </section>
+
+    <!-- 퀴즈 화면 -->
+    <section id="screen-quiz" class="screen">
+      <div class="progress">
+        <div id="hearts" class="hearts"></div>
+        <div id="step" class="step"></div>
+      </div>
+      <div id="card" class="card">
+        <p class="q-label">Q<span id="q-num"></span>.</p>
+        <h2 id="question"></h2>
+        <div id="choices" class="choices"></div>
+        <p id="feedback" class="feedback"></p>
+      </div>
+    </section>
+
+    <!-- 정답 & 추억 공개 화면 -->
+    <section id="screen-memory" class="screen">
+      <p class="correct-badge">정답! 💯</p>
+      <div class="polaroid">
+        <div id="photo-box" class="photo-box"></div>
+        <p id="memory" class="memory"></p>
+      </div>
+      <button id="btn-next" class="btn primary">다음 문제 ➜</button>
+    </section>
+
+    <!-- 편지 화면 -->
+    <section id="screen-letter" class="screen">
+      <p id="letter-hint" class="subtitle">마지막 선물이 도착했어요!<br />봉투를 눌러보세요 👇</p>
+      <button id="envelope" class="envelope" aria-label="편지 열기">
+        <div class="flap"></div>
+        <div class="seal">💌</div>
+      </button>
+      <article id="letter" class="letter hidden">
+        <p id="letter-text"></p>
+        <p id="letter-sign" class="sign"></p>
+        <p id="final-surprise" class="surprise"></p>
+        <button id="btn-replay" class="btn ghost">처음부터 다시 하기 ↺</button>
+      </article>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
