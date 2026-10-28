@@ -1,0 +1,6 @@
+# 작성자 기본값 (content.yaml 의 author 로 건별 변경 가능)
+author:
+  team: SMART기술팀
+  name: 이 주 연
+  rank: 사원
+  tel: 010-4993-4693
